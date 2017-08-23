@@ -24,7 +24,7 @@ _start:
 
 	/* enter C */
 	.extern c_start
-	la $t0, c_start
+	dla $t0, c_start
 	jalr $t0
 	nop
 
@@ -44,24 +44,24 @@ rsp_beg:
 	addiu $a0, $a0, 0x20
 
 	/* set stuff up */
-	la $t0, (0x00<<24)
+	dla $t0, (0x00<<24)
 	sw $t0, 0($a0)
-	la $t1, 0
+	dla $t1, 0
 	sw $t1, 4($a0)
 
-	la $t0, (0x2F<<24) | (3<<20) | (15<<4) | 15;
+	dla $t0, (0x2F<<24) | (3<<20) | (15<<4) | 15;
 	sw $t0, 8($a0)
-	la $t1, (0x0000<<16) | 0
+	dla $t1, (0x0000<<16) | 0
 	sw $t1, 12($a0)
 
-	la $t0, (0x3C<<24) | 0x00FFFFFF
+	dla $t0, (0x3C<<24) | 0x00FFFFFF
 	sw $t0, 16($a0)
-	la $t1, 0xFFFDFF3F
+	dla $t1, 0xFFFDFF3F
 	sw $t1, 20($a0)
 
-	la $t0, (0x37<<24)
+	dla $t0, (0x37<<24)
 	sw $t0, 24($a0)
-	la $t1, 0xFF0000FF
+	dla $t1, 0xFF0000FF
 	sw $t1, 28($a0)
 	
 	/* draw our triangle */
@@ -148,7 +148,7 @@ rsp_beg:
 	SSV(5, 0, 62, R_A0)
 
 	/* set Y values + major side */
-	la $t0, (0x08<<24) | (1<<23)
+	dla $t0, (0x08<<24) | (1<<23)
 	sll $t2, $s5, 2
 	andi $t2, $t2, 0x3FFF
 	or $t0, $t0, $t2
@@ -160,8 +160,8 @@ rsp_beg:
 	or $t1, $t3, $t4
 	sw $t1, 36($a0)
 
-	la $t0, 64
-	la $t1, 0x0002
+	dla $t0, 64
+	dla $t1, 0x0002
 	mtc0 $t1, $11
 	addu $a1, $a0, $t0
 
@@ -177,3 +177,4 @@ rsp_beg:
 	break
 	nop
 rsp_end:
+	.align 8

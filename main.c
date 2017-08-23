@@ -95,7 +95,7 @@ void c_start(void)
 	rdp_list[ridx++] = 0;
 
 	rdp_list[ridx++] = (0x3D<<24) | (0<<21) | (2<<19) | (16-1);
-	rdp_list[ridx++] = (uint32_t)&test_tile[2*16];
+	rdp_list[ridx++] = (uint32_t)(uintptr_t)&test_tile[2*16];
 	rdp_list[ridx++] = (0x35<<24) | (0<<21) | (2<<19) | (4<<9) | ((0x000)>>3);
 	rdp_list[ridx++] = (0<<24) | (0<<20) | (0x05B<<10) | (0x05B);
 	rdp_list[ridx++] = (0x34<<24) | ((0<<2)<<12) | (0<<2);
@@ -105,7 +105,7 @@ void c_start(void)
 	rdp_list[ridx++] = 0;
 
 	rdp_list[ridx++] = (0x3D<<24) | (0<<21) | (2<<19) | (1-1);
-	rdp_list[ridx++] = (uint32_t)&test_tile[0];
+	rdp_list[ridx++] = (uint32_t)(uintptr_t)&test_tile[0];
 	rdp_list[ridx++] = (0x35<<24) | (0<<21) | (0<<19) | (0<<9) | (0x800>>3);
 	rdp_list[ridx++] = (0 << 24) | (0<<20) | (0x05B<<10) | (0x05B);
 	rdp_list[ridx++] = (0x30<<24) | (((0)<<2)<<12);
@@ -328,8 +328,8 @@ void c_start(void)
 	}
 
 
-	*(volatile uint32_t *)0xA4100000 = (uint32_t)&rdp_list[ridx_fence];
-	*(volatile uint32_t *)0xA4100004 = (uint32_t)&rdp_list[ridx];
+	*(volatile uint32_t *)0xA4100000 = (uint32_t)(uintptr_t)&rdp_list[ridx_fence];
+	*(volatile uint32_t *)0xA4100004 = (uint32_t)(uintptr_t)&rdp_list[ridx];
 
 	*(volatile uint32_t *)0xA4040010 = 0x00000002; // stop RSP
 
@@ -341,6 +341,7 @@ void c_start(void)
 	}
 	ridx_fence = ridx;
 
+#if 0
 	// RSP test
 	//memcpy((void *)0xA4001000, rsp_beg, rsp_end-rsp_beg);
 	*(volatile uint32_t *)0xA4080000 = 0x00000000;
@@ -348,7 +349,8 @@ void c_start(void)
 	*(volatile uint32_t *)0xA4000010 = (120<<16)|50;
 	*(volatile uint32_t *)0xA4000014 = (240<<16)|130;
 	*(volatile uint32_t *)0xA4000018 = (100<<16)|210;
-	//*(volatile uint32_t *)0xA4040010 = 0x00000001;
+	*(volatile uint32_t *)0xA4040010 = 0x00000001;
+#endif
 	
 	for(;;) {}
 
